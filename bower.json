@@ -3,7 +3,9 @@
   "description": "A component to edit a product library option set on the Ordercloud platform",
   "main": "oc-edit-library-option-set.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0"
+    "polymer": "Polymer/polymer#^1.4.0",
+    "oc-edit-option-set": "git://github.com/oc-elements/oc-edit-option-set#1.x",
+    "oc-product-library": "git://github.com/oc-elements/oc-product-library-api#1.x"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
