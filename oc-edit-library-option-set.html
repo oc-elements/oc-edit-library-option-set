@@ -47,7 +47,7 @@ Element used to edit a local option set
       _loadOptionSet: function() {
         if (this.organisationId) {
           this.loading = true;
-          this.$.prodLibApi.getOptionSet(this.optionSetId)
+          this.$.prodLibApi.getProductOptions(this.optionSetId)
                   .then(function (request) {
                     this.$.editOptionSetControl.setOptionSet(request.response);
                     this.$.editOptionSetControl.setOptions(request.response.options);
@@ -72,7 +72,7 @@ Element used to edit a local option set
                   price: event.detail.price,
                   description: event.detail.description,
                   setId: this.optionSetId,
-                  itemsPluFlatMappingEnabled: false})
+                  itemsPluFlatMappingEnabled: event.detail.itemsPluFlatMappingEnabled})
                 .then(function() {this._refreshOptions()}.bind(this))
                 .catch(function() {
                   this.loading = false;
