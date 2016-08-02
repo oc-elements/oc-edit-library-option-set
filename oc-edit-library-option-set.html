@@ -23,6 +23,7 @@ Element used to edit a local option set
             on-save-option-set="_onSaveOptionSet"
             on-create-option="_onCreateOption"
             on-delete-option="_onDeleteOption"
+            plu-flatmapping
     ></oc-edit-option-set>
   </template>
 
@@ -59,20 +60,21 @@ Element used to edit a local option set
 
       _onSaveOptionSet: function(event) {
         this.loading = true;
-        this.$.prodLibApi.updateOptionSet(this.optionSetId, event.detail)
+        this.$.prodLibApi.updateOption(this.optionSetId, event.detail)
                 .catch(this.fire.bind(this, 'options_error', 'Could not update option set'))
                 .finally(this.set.bind(this, 'loading', false));
       },
 
       _onCreateOption: function(event) {
         this.loading = true;
-        this.$.prodLibApi.createOption(this.organisationId,
-                {
-                  name: event.detail.name,
-                  price: event.detail.price,
-                  description: event.detail.description,
-                  setId: this.optionSetId,
-                  itemsPluFlatMappingEnabled: event.detail.itemsPluFlatMappingEnabled})
+        var params = {
+          name: event.detail.name,
+          price: event.detail.price,
+          description: event.detail.description,
+          setId: this.optionSetId
+        };
+        params.itemsPluFlatMappingEnabled = (event.detail.itemsPluFlatMappingEnabled) ? event.detail.itemsPluFlatMappingEnabled : false;
+        this.$.prodLibApi.createOption(params)
                 .then(function() {this._refreshOptions()}.bind(this))
                 .catch(function() {
                   this.loading = false;
@@ -82,7 +84,7 @@ Element used to edit a local option set
 
       _refreshOptions: function() {
         this.loading = true;
-        this.$.prodLibApi.getOptionSet(this.optionSetId)
+        this.$.prodLibApi.getProductOptions(this.optionSetId)
                 .then(function(request) {
                   this.$.editOptionSetControl.setOptions(request.response.options);
                 }.bind(this))
